@@ -1,4 +1,4 @@
-package com.hosseiniseyro.androidapprating
+package com.hosseiniseyro.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

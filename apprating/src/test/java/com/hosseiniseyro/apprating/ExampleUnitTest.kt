@@ -1,4 +1,4 @@
-package com.hosseiniseyro.androidapprating
+package com.hosseiniseyro.apprating
 
 import org.junit.Test
 
