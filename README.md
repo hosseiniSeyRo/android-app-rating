@@ -1,7 +1,7 @@
 
 # Android App Rating 
 [![](https://jitpack.io/v/hosseiniSeyRo/android-app-rating.svg)](https://jitpack.io/#hosseiniSeyRo/android-app-rating) 
-[![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
+[![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/vipulasri/Timeline-View/blob/master/LICENSE)
 
 
@@ -39,8 +39,8 @@ This library is actually a combination of three other libraries. And contains th
 
 
 ## Demo
-<img src ="./gifs/first.gif" width="360" height="640"/>&nbsp;&nbsp;&nbsp;&nbsp;
-<img src ="./gifs/second.gif" width="360" height="640"/>
+<img src ="./gifs/firstDialog.gif" width="360" height="640"/>&nbsp;&nbsp;&nbsp;&nbsp;
+<img src ="./gifs/secondDialog.gif" width="360" height="640"/>
 
 
 ## Installation
@@ -63,26 +63,6 @@ Step 2. Add it as a dependency in your app's build.gradle file
 	}
 ```
 
-### Maven
-
-Step 1. Add the JitPack repository to your build file
-```groovy
-    <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
-Step 2. Add the dependency
-```groovy
-    <dependency>
-	    <groupId>com.github.hosseiniSeyRo</groupId>
-	    <artifactId>android-app-rating</artifactId>
-	    <version>1.1.0</version>
-	</dependency>
-```
 
 ## How to use
 
