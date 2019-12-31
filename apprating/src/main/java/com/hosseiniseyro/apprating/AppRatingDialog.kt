@@ -16,15 +16,19 @@ limitations under the License.
 
 package com.hosseiniseyro.apprating
 
+import android.content.Context
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.hosseiniseyro.apprating.AppRatingDialog.Builder
+import com.hosseiniseyro.apprating.PreferenceHelper.*
 import com.hosseiniseyro.apprating.common.Preconditions
 import java.io.Serializable
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -35,7 +39,8 @@ import kotlin.collections.ArrayList
  */
 class AppRatingDialog private constructor(
     private val fragmentActivity: FragmentActivity,
-    private val data: Builder.Data
+    private val data: Builder.Data,
+    private val context: Context
 ) {
 
     private var fragment: Fragment? = null
@@ -68,6 +73,61 @@ class AppRatingDialog private constructor(
         }
     }
 
+    fun showRateDialogIfMeetsConditions(): Boolean {
+        val isMeetsConditions = shouldShowRateDialog()
+        if (isMeetsConditions) {
+            show()
+        }
+        return isMeetsConditions
+    }
+
+    fun shouldShowRateDialog(): Boolean {
+        return getIsAgreeShowDialog(context) &&
+                isOverLaunchTimes() &&
+                isOverInstallDate() &&
+                isOverRemindDate()
+    }
+
+    private fun isOverLaunchTimes(): Boolean {
+        return getLaunchTimes(context) >= data.numberOfLaunches
+    }
+
+    private fun isOverInstallDate(): Boolean {
+        return isOverDate(getInstallDate(context), data.afterInstallDay)
+    }
+
+    private fun isOverRemindDate(): Boolean {
+        return isOverDate(getRemindInterval(context), data.remindInterval)
+    }
+
+    private fun isOverDate(targetDate: Long, threshold: Int): Boolean {
+        return Date().time - targetDate >= threshold * 24 * 60 * 60 * 1000
+    }
+
+    fun monitor() {
+        if (isFirstLaunch(context)) {
+            Toast.makeText(context, "first", Toast.LENGTH_SHORT).show()
+            setInstallDate(context)
+        }
+        setLaunchTimes(context, getLaunchTimes(context) + 1)
+    }
+
+    fun clearAgreeShowDialog(): AppRatingDialog {
+        PreferenceHelper.setAgreeShowDialog(context, true)
+        return this
+    }
+
+    fun clearSettingsParam(): AppRatingDialog {
+        PreferenceHelper.setAgreeShowDialog(context, true)
+        PreferenceHelper.clearSharedPreferences(context)
+        return this
+    }
+
+    fun setAgreeShowDialog(clear: Boolean): AppRatingDialog {
+        PreferenceHelper.setAgreeShowDialog(context, clear)
+        return this
+    }
+
     /**
      * This class allows to setup rating dialog
      * using builder pattern.
@@ -78,6 +138,9 @@ class AppRatingDialog private constructor(
             var numberOfStars: Int = MAX_RATING,
             var defaultRating: Int = DEFAULT_RATING,
             var threshold: Int = DEFAULT_THRESHOLD,
+            var afterInstallDay: Int = DEFAULT_AFTER_INSTALL_DAY,   // number of days after Installation day
+            var numberOfLaunches: Int = DEFAULT_NUMBER_OF_LAUNCH,   // number of launch after last show rate dialog
+            var remindInterval: Int = DEFAULT_REMIND_INTERVAL,      // number of days after click on remind me later
             val positiveButtonText: StringValue = StringValue(),
             val negativeButtonText: StringValue = StringValue(),
             val neutralButtonText: StringValue = StringValue(),
@@ -110,7 +173,7 @@ class AppRatingDialog private constructor(
          */
         fun create(activity: FragmentActivity): AppRatingDialog {
             Preconditions.checkNotNull(activity, "FragmentActivity cannot be null")
-            return AppRatingDialog(activity, data)
+            return AppRatingDialog(activity, data, activity.applicationContext)
         }
 
         /**
@@ -178,6 +241,51 @@ class AppRatingDialog private constructor(
                 "threshold value should be more than 0"
             )
             data.threshold = threshold
+            return this
+        }
+
+        /**
+         * This method sets afterInstallDay, number of days after Installation day for show rate dialog
+         *
+         * @param afterInstallDay number of days after Installation day for show rate dialog
+         * @return Builder for chaining
+         */
+        fun setAfterInstallDay(afterInstallDay: Int): Builder {
+            Preconditions.checkArgument(
+                afterInstallDay >= 0,
+                "AfterInstallDay value should be more than 0"
+            )
+            data.afterInstallDay = afterInstallDay
+            return this
+        }
+
+        /**
+         * This method sets numberOfLaunches, number of launch after last show rate dialog
+         *
+         * @param numberOfLaunches number of launch after last show rate dialog
+         * @return Builder for chaining
+         */
+        fun setNumberOfLaunches(numberOfLaunches: Int): Builder {
+            Preconditions.checkArgument(
+                numberOfLaunches >= 0,
+                "NumberOfLaunches value should be more than 0"
+            )
+            data.numberOfLaunches = numberOfLaunches
+            return this
+        }
+
+        /**
+         * This method sets remindInterval, number of days after click on remind me later
+         *
+         * @param remindInterval number of days after click on remind me later
+         * @return Builder for chaining
+         */
+        fun setRemindInterval(remindInterval: Int): Builder {
+            Preconditions.checkArgument(
+                remindInterval >= 0,
+                "RemindInterval value should be more than 0"
+            )
+            data.remindInterval = remindInterval
             return this
         }
 
