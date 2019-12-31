@@ -30,6 +30,7 @@ class SamplesFragment : Fragment(), RatingDialogListener {
             .setNegativeButtonText("Cancel")
             .setNeutralButtonText("Later")
             .setDefaultRating(2)
+            .setThreshold(3)
             .setTitle("Rate this application")
             .setDescription("Please select some stars and give your feedback")
             .setStarColor(R.color.starColor)
@@ -48,8 +49,13 @@ class SamplesFragment : Fragment(), RatingDialogListener {
             .show()
     }
 
-    override fun onPositiveButtonClicked(rate: Int, comment: String) {
-        Toast.makeText(activity, "Rate : $rate\nComment : $comment", Toast.LENGTH_LONG).show()
+    override fun onPositiveButtonClickedWithComment(rate: Int, comment: String) {
+        Toast.makeText(activity, "Rate : $rate\nComment : $comment", Toast.LENGTH_LONG)
+            .show()
+    }
+
+    override fun onPositiveButtonClickedWithoutComment(rate: Int) {
+        Toast.makeText(activity, "Rate : $rate\n go to market", Toast.LENGTH_LONG).show()
     }
 
     override fun onNegativeButtonClicked() {

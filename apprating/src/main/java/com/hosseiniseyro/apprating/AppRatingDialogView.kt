@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.component_app_rate_dialog.view.*
 class AppRatingDialogView(context: Context) : LinearLayout(context), OnRatingBarChangedListener {
 
     private var noteDescriptions: List<String>? = null
+    private var threshold: Int = DEFAULT_THRESHOLD
 
     init {
         setup(context)
@@ -92,6 +93,15 @@ class AppRatingDialogView(context: Context) : LinearLayout(context), OnRatingBar
         val numberOfStars = noteDescriptions.size
         setNumberOfStars(numberOfStars)
         this.noteDescriptions = noteDescriptions
+    }
+
+    /**
+     * This method sets threshold.
+     *
+     * @param threshold number of stars which the user can send a comment for them
+     */
+    fun setThreshold(threshold: Int) {
+        this.threshold = threshold
     }
 
     /**
@@ -199,6 +209,15 @@ class AppRatingDialogView(context: Context) : LinearLayout(context), OnRatingBar
 
     override fun onRatingChanged(rating: Int) {
         updateNoteDescriptionText(rating - 1)
+        changeCommentEditTextVisibility(rating)
+    }
+
+    private fun changeCommentEditTextVisibility(rating: Int) {
+        if (rating <= threshold) {
+            commentEditText.visibility = View.VISIBLE
+        } else { //rating>threshold
+            commentEditText.visibility = View.GONE
+        }
     }
 
     private fun updateNoteDescriptionText(rating: Int) {

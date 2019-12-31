@@ -34,6 +34,7 @@ class SamplesActivity : FragmentActivity(), RatingDialogListener {
                 )
             )
             .setDefaultRating(2)
+            .setThreshold(4)
             .setTitle("Rate this application")
             .setDescription("Please select some stars and give your feedback")
             .setStarColor(R.color.starColor)
@@ -101,9 +102,13 @@ class SamplesActivity : FragmentActivity(), RatingDialogListener {
             .show()
     }
 
-    override fun onPositiveButtonClicked(rate: Int, comment: String) {
+    override fun onPositiveButtonClickedWithComment(rate: Int, comment: String) {
         Toast.makeText(this@SamplesActivity, "Rate : $rate\nComment : $comment", Toast.LENGTH_LONG)
             .show()
+    }
+
+    override fun onPositiveButtonClickedWithoutComment(rate: Int) {
+        Toast.makeText(this@SamplesActivity, "Rate : $rate\n go to market", Toast.LENGTH_LONG).show()
     }
 
     override fun onNegativeButtonClicked() {
