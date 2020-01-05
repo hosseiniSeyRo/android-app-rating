@@ -34,7 +34,9 @@
     <com.hosseiniseyro.apprating.ratingbar.CustomRatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/noteDescriptionText"
