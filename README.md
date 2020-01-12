@@ -59,7 +59,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 Step 2. Add it as a dependency in your app's build.gradle file
 ```groovy
     dependencies {
-	        implementation 'com.github.hosseiniSeyRo:android-app-rating:1.1.1'
+	        implementation 'com.github.hosseiniSeyRo:android-app-rating:1.1.2'
 	}
 ```
 
