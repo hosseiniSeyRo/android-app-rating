@@ -152,11 +152,11 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 private AppRatingDialog buildRatingDialog() {
-    return AppRatingDialog.Builder()
+    return new AppRatingDialog.Builder()
             .setPositiveButtonText("Submit")
             .setNegativeButtonText("Cancel")
             .setNeutralButtonText("Later")
-            .setNoteDescriptions(listOf("Very Bad", "Not good", "Quite ok", "Very Good", "Excellent !!!"))
+            .setNoteDescriptions(Arrays.asList("Very Bad", "Not good", "Quite ok", "Very Good", "Excellent !!!"))
             .setDefaultRating(2)
             .setThreshold(4)
             .setAfterInstallDay(0)
@@ -176,7 +176,7 @@ private AppRatingDialog buildRatingDialog() {
             .setHintTextColor(R.color.hintTextColor)
             .setCancelable(false)
             .setCanceledOnTouchOutside(false)
-            .create(this@SamplesActivity)
+            .create(this);
 }
 ```
 
