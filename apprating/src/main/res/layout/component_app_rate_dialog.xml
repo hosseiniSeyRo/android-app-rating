@@ -35,7 +35,7 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
+        android:layoutDirection="ltr"
         tools:ignore="UnusedAttribute" />
 
     <TextView
